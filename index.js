@@ -25,6 +25,10 @@ pool.connect()
 
 // Habilitar CORS para que tu frontend pueda hacer solicitudes
 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+
 app.use(express.json());  // Esta línea es necesaria para manejar el cuerpo como JSON
 
 const corsOptions = {
@@ -76,8 +80,14 @@ app.get('/artwork/:id', async (req, res) => {
       return res.status(404).json({ error: 'Artwork not found' });
     }
 
+    const artwork = result.rows[0];
+
     // Devuelve los datos de la obra de arte como respuesta
-    res.status(200).json(result.rows[0]);
+    res.render('artwork', {
+      name: artwork.name,
+      description: artwork.description,
+      imageUrl: artwork.image_url,
+    });
   } catch (error) {
     console.error('Error fetching artwork:', error);
     res.status(500).json({ error: 'Error fetching artwork' });
