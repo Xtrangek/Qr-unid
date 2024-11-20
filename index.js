@@ -6,7 +6,10 @@ const app = express();
 
 require('dotenv').config();
 
+
 const { Pool } = require('pg');
+
+
 const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
@@ -21,6 +24,9 @@ pool.connect()
   .catch(err => console.error('Error connecting to PostgreSQL', err));
 
 // Habilitar CORS para que tu frontend pueda hacer solicitudes
+
+app.use(express.json());  // Esta línea es necesaria para manejar el cuerpo como JSON
+
 const corsOptions = {
   origin: '*',  // Permite solicitudes solo desde este dominio
   methods: ['GET', 'POST'],
