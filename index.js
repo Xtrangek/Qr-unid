@@ -48,6 +48,14 @@ app.post('/generate-qr', async (req, res) => {
   }
 
   try {
+    // Consulta la base de datos para verificar si la obra de arte existe
+    const result = await pool.query('SELECT * FROM artworks WHERE id = $1 AND name = $2', [artworkId, artworkName]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Artwork not found in the database' });
+    }
+
+    // Si la obra de arte existe, genera el QR
     const qrData = `${process.env.BASE_URL}/artwork/${artworkId}`;
     const qrCode = await QRCode.toDataURL(qrData);
 
@@ -57,6 +65,25 @@ app.post('/generate-qr', async (req, res) => {
     res.status(500).json({ error: 'Error generating QR code' });
   }
 });
+
+app.get('/artwork/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM artworks WHERE id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Artwork not found' });
+    }
+
+    // Devuelve los datos de la obra de arte como respuesta
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error fetching artwork:', error);
+    res.status(500).json({ error: 'Error fetching artwork' });
+  }
+});
+
 
 // Inicia el servidor
 app.listen(PORT, () => {
