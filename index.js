@@ -43,13 +43,13 @@ app.post('/generateQR', async (req, res) => {
     const artwork = result.rows[0];
     const url = `${process.env.BASE_URL}/artwork/${artworkId}`;
 
-    // Generar el QR
-    QRCode.toDataURL(url, (err, qrCodeUrl) => {
-      if (err) {
-        return res.status(500).json({ error: 'Error generating QR code' });
-      }
+    try {
+      const qrCodeUrl = await QRCode.toDataURL(url);
       res.json({ qrCodeUrl, artwork });
-    });
+    } catch (err) {
+      console.error('Error generating QR code:', err);
+      res.status(500).json({ error: 'Error generating QR code' });
+    }
 
   } catch (error) {
     console.error('Error fetching artwork:', error);
