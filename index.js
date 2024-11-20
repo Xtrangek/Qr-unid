@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');  // Importa cors
 const QRCode = require('qrcode');
 const app = express();
+const path = require('path');
 
 require('dotenv').config();
 
