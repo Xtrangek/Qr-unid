@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const QRCode = require('qrcode');
-const app = express();
-
+const { Pool } = require('pg');
 require('dotenv').config();  // Asegúrate de cargar las variables de entorno
 
-const { Pool } = require('pg');
-const connectionString = process.env.DATABASE_URL; // Usa la variable de entorno DATABASE_URL
+const app = express();
+
+// Configurar la base de datos PostgreSQL
+const connectionString = process.env.DATABASE_URL;  // Usa la variable de entorno DATABASE_URL
 
 const pool = new Pool({
   connectionString: connectionString,
@@ -20,8 +20,8 @@ pool.connect()
   .then(() => console.log('Connected to PostgreSQL'))
   .catch(err => console.error('Error connecting to PostgreSQL', err));
 
-// Puerto del servidor
-const PORT = process.env.PORT || 3000;
+// Middleware para manejar JSON en las solicitudes
+app.use(bodyParser.json());
 
 // Ruta raíz para verificar el servidor
 app.get('/', (req, res) => {
@@ -38,7 +38,7 @@ app.post('/generate-qr', async (req, res) => {
 
   try {
     // Genera la URL del QR basada en el ID
-    const qrData = `${process.env.BASE_URL}/artwork/${artworkId}`;
+    const qrData = `${process.env.BASE_URL}/artwork/${artworkId}`; // BASE_URL debe ser configurado en las variables de entorno
     const qrCode = await QRCode.toDataURL(qrData);
 
     res.status(200).json({ qrCode });
@@ -67,7 +67,7 @@ app.get('/artwork/:id', async (req, res) => {
 });
 
 // Inicia el servidor
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-  
+  console.log(`Server running on port ${PORT}`);
+});
