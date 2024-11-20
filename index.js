@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { Pool } = require('pg');
+
 const QRCode = require('qrcode');
 const app = express();
 
@@ -19,7 +19,7 @@ const pool = new Pool({
 pool.connect()
   .then(() => console.log('Connected to PostgreSQL'))
   .catch(err => console.error('Error connecting to PostgreSQL', err));
-  
+
 // Puerto del servidor
 const PORT = process.env.PORT || 3000;
 
