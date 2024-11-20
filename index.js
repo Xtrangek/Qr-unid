@@ -74,6 +74,11 @@ app.post('/generate-qr', async (req, res) => {
 app.get('/artwork/:id', async (req, res) => {
   const { id } = req.params;
 
+  // Validar que el ID sea un número entero
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'Invalid ID, must be a number' });
+  }
+
   try {
     const result = await pool.query('SELECT * FROM artworks WHERE id = $1', [id]);
 
@@ -81,14 +86,7 @@ app.get('/artwork/:id', async (req, res) => {
       return res.status(404).json({ error: 'Artwork not found' });
     }
 
-    const artwork = result.rows[0];
-
-    // Devuelve los datos de la obra de arte como respuesta
-    res.render('artwork', {
-      name: artwork.name,
-      description: artwork.description,
-      imageUrl: artwork.image_url,
-    });
+    res.status(200).json(result.rows[0]);
   } catch (error) {
     console.error('Error fetching artwork:', error);
     res.status(500).json({ error: 'Error fetching artwork' });
