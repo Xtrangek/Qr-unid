@@ -75,8 +75,8 @@ app.get('/artwork/:id', async (req, res) => {
   const { id } = req.params;
 
   // Validar que el ID sea un número entero
-  if (isNaN(id)) {
-    return res.status(400).json({ error: 'Invalid ID, must be a number' });
+  if (isNaN(id) || parseInt(id) <= 0) {
+    return res.status(400).json({ error: 'Invalid ID, must be a positive integer' });
   }
 
   try {
