@@ -2,22 +2,24 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const QRCode = require('qrcode');
-require('dotenv').config(); // Carga las variables de entorno
-
 const app = express();
-app.use(bodyParser.json());
 
-// Configuración del cliente PostgreSQL
+require('dotenv').config();  // Asegúrate de cargar las variables de entorno
+
+const { Pool } = require('pg');
+const connectionString = process.env.DATABASE_URL; // Usa la variable de entorno DATABASE_URL
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL, // Conexión definida en variables de entorno
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  connectionString: connectionString,
+  ssl: {
+    rejectUnauthorized: false // Necesario si tu base de datos requiere SSL
+  }
 });
 
-// Verifica conexión a la base de datos
 pool.connect()
   .then(() => console.log('Connected to PostgreSQL'))
-  .catch((err) => console.error('Error connecting to PostgreSQL:', err));
-
+  .catch(err => console.error('Error connecting to PostgreSQL', err));
+  
 // Puerto del servidor
 const PORT = process.env.PORT || 3000;
 
