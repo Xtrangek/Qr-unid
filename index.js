@@ -66,11 +66,6 @@ app.get('/artwork/:id', async (req, res) => {
 
 // Inicia el servidor
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+    console.log(`Server running on port ${PORT}`);
+  });
+  
