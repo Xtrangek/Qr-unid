@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const { Pool } = require('pg');
+
 const QRCode = require('qrcode');
 const app = express();
 
@@ -10,14 +10,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('frontend/public'));
 
-// Conexión a la base de datos PostgreSQL
+const { Pool } = require('pg');
+const connectionString = process.env.DATABASE_URL;
+
 const pool = new Pool({
-  user: 'your_user',
-  host: 'your_host',
-  database: 'your_database',
-  password: 'your_password',
-  port: 5432,
+  connectionString: connectionString,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
+
+pool.connect()
+  .then(() => console.log('Connected to PostgreSQL'))
+  .catch(err => console.error('Error connecting to PostgreSQL', err));
 
 // Ruta para generar el QR y devolverlo al frontend
 app.post('/generateQR', async (req, res) => {
