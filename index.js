@@ -79,17 +79,17 @@ app.get('/artwork/:id', async (req, res) => {
           <title>Detalle de la Obra: ${artwork.name}</title>
           <style>
             body {
-              font-family: Arial, sans-serif;
-              margin: 0;
-              padding: 0;
-              background-color: #f4f4f9;
-              color: #333;
+                  background-color: #F5F5F5; /* Blanco hueso */
+                  color: #333; /* Texto oscuro para contraste */
+                  font-family: 'Open Sans', sans-serif;
+                  margin: 0;
+                  padding: 0;
             }
             header {
-              background-color: #333;
-              color: #fff;
-              padding: 10px 0;
+              background-color: #D8E2DC; /* Azul suave */
               text-align: center;
+              padding: 20px;
+              font-family: 'Playfair Display', serif;
             }
             h1 {
               font-size: 2em;
@@ -104,14 +104,14 @@ app.get('/artwork/:id', async (req, res) => {
               max-width: 100%;
               height: auto;
               display: block;
-              margin: 0 auto;
+              margin: 20 auto;
               border-radius: 8px;
             }
             .container {
               max-width: 900px;
               margin: 0 auto;
               padding: 20px;
-              background-color: #fff;
+              background-color: #FAF3E0;
               box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
               border-radius: 8px;
               margin-top: 20px;
@@ -132,6 +132,7 @@ app.get('/artwork/:id', async (req, res) => {
           </header>
           <div class="container">
             <p><strong>Descripción:</strong> ${artwork.description}</p>
+            <p><strong>Autor:</strong> ${artwork.autor}</p>
             <img src="${artwork.image_url}" alt="${artwork.name}">
           </div>
         </body>
