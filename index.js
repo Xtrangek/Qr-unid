@@ -12,13 +12,12 @@ app.use(express.static('frontend/public'));
 
 const { Pool } = require('pg');
 const connectionString = process.env.DATABASE_URL;
-
 const pool = new Pool({
     user: 'postgres', // Reemplaza con tu usuario de PostgreSQL
     host: 'autorack.proxy.rlwy.net', // Cambia según tu entorno
     database: 'railway', // Reemplaza con el nombre de tu base de datos
-    password: 'sQhOMigIOQrYnBdwzqbEOMcReBXcViDX', // Reemplaza con la contraseña de tu usuario
-    port: 18527, // Cambia si usas un puerto diferente
+    password: 'tZlFyDJwvMuPhNrcvWwBizsBZowpmUmC', // Reemplaza con la contraseña de tu usuario
+    port: 58269, // Cambia si usas un puerto diferente
     ssl: { rejectUnauthorized: false }, // Usa SSL solo si es necesario
 });
 
